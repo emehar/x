@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> FAISAL | Full-Stack Developer & UX Engineer</title>
+  <meta name="description" content="Portfolio of FAISAL: crafting fast, accessible, and beautifully engineered digital products.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --surface: #141820;
+      --text: #e8eaf0;
+      --text-muted: #9ca3b0;
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --accent-dark: #6d28d9;
+      --radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.35);
+      --font-main: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Blobs */
+    .bg-blobs {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+    }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
+      animation: float 18s infinite alternate ease-in-out;
+    }
+    .blob-1 { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -10%; animation-delay: 0s; }
+    .blob-2 { width: 300px; height: 300px; background: #06b6d4; bottom: 10%; right: -5%; animation-delay: -6s; }
+    .blob-3 { width: 250px; height: 250px; background: #ec4899; top: 40%; left: 60%; animation-delay: -12s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -30px) scale(1.05); }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(11,14,20,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1f2530;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo {
+      font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem;
+      color: var(--text); text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-weight: 500;
+      position: relative; transition: color 0.25s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--accent); transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+    .menu-toggle {
+      display: none; background: none; border: none; color: var(--text);
+      font-size: 1.6rem; cursor: pointer;
+    }
+
+    /* Layout */
+    section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+    h1, h2, h3 { font-family: var(--font-heading); line-height: 1.1; }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 2.5rem; text-align: center;
+      background: linear-gradient(135deg, var(--accent), #06b6d4);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* Hero */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding-top: 5rem; position: relative;
+    }
+    #hero h1 { font-size: clamp(2.5rem, 6vw, 4.2rem); margin-bottom: 0.8rem; }
+    .hero-gradient {
+      background: linear-gradient(135deg, var(--accent), #ec4899, #06b6d4, var(--accent));
+      background-size: 300% 300%;
+      animation: gradShift 8s ease infinite;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .typing-container {
+      font-size: 1.25rem; color: var(--text-muted); height: 2rem; margin-bottom: 2rem;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .typing-text::after {
+      content: '|'; margin-left: 2px; animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem;
+      background: var(--accent); color: white; text-decoration: none;
+      border-radius: var(--radius); font-weight: 600; transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(139,92,246,0.3);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139,92,246,0.45); }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--accent); color: var(--accent);
+      box-shadow: none; margin-left: 0.5rem;
+    }
+    .btn-outline:hover { background: var(--accent); color: white; box-shadow: 0 8px 25px rgba(139,92,246,0.45); }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; }
+    .about-img {
+      width: 100%; max-width: 320px; border-radius: var(--radius);
+      box-shadow: var(--shadow); border: 2px solid #1f2530;
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; text-align: center; }
+      .about-img { margin: 0 auto; }
+    }
+
+    /* Skills */
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+    .skill-tag {
+      background: var(--surface); padding: 0.6rem 1.1rem; border-radius: 20px;
+      border: 1px solid #2d3340; font-size: 0.9rem; font-weight: 500;
+      transition: all 0.25s ease; cursor: default;
+    }
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); }
+
+    /* Projects */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.8rem; }
+    .project-card {
+      background: var(--surface); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid #232833; transition: all 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-6px); border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(139,92,246,0.2);
+    }
+    .project-img { width: 100%; height: 210px; object-fit: cover; background: #11151c; }
+    .project-content { padding: 1.3rem; }
+    .project-content h3 { margin-bottom: 0.6rem; font-size: 1.3rem; }
+    .project-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+    .tech-badge { font-size: 0.75rem; background: #1f242e; padding: 0.25rem 0.6rem; border-radius: 6px; color: #a5b4fc; }
+    .project-links { display: flex; gap: 1.2rem; }
+    .project-links a { color: var(--accent-light); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
+    .project-links a:hover { color: #c4b5fd; text-decoration: underline; }
+
+    /* Contact */
+    .contact-container { max-width: 650px; margin: 0 auto; text-align: center; }
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap; }
+    .contact-links a {
+      color: var(--text-muted); text-decoration: none; font-weight: 500;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .contact-links a:hover { color: var(--accent-light); transform: translateY(-2px); }
+
+    /* Footer */
+    footer { text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); border-top: 1px solid #1f2530; margin-top: 3rem; }
+
+    /* Scroll Animations */
+    .fade-up {
+      opacity: 0; transform: translateY(35px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+
+    /* Mobile Nav */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: fixed; top: 64px; left: 0; width: 100%;
+        background: var(--surface); flex-direction: column;
+        padding: 1.2rem; gap: 1.2rem; transform: translateY(-160%);
+        transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border-bottom: 1px solid #2d3340;
+      }
+      .nav-links.active { transform: translateY(0); }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; transition: none; }
+      .blob, .hero-gradient, .typing-text::after { animation: none; }
+      .btn:hover, .skill-tag:hover, .project-card:hover, .contact-links a:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animation -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">FAISAL<span>.</span>dev</a>
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <h1 class="fade-up">Hi, I'm <span class="hero-gradient">FAISAL</span></h1>
+    <div class="typing-container fade-up stagger-1">
+      <span class="typing-text"></span>
+    </div>
+    <div class="fade-up stagger-2">
+      <a href="#projects" class="btn">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Let's Talk</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <h2 class="section-title fade-up">About Me</h2>
+    <div class="about-grid">
+      <img src="https://placehold.co/320x320/141820/8b5cf6?text=FAISAL" alt="FAISAL" class="about-img fade-up">
+      <div class="fade-up stagger-1">
+        <p style="margin-bottom:1rem;">I’m a full-stack developer and UX engineer with 5+ years of experience shipping products that balance performance, accessibility, and visual polish. I thrive at the intersection of code and design, turning complex problems into intuitive interfaces.</p>
+        <p>My toolkit spans modern JavaScript frameworks, cloud infrastructure, and user-centered design principles. I’ve led frontend architecture for SaaS startups, built open-source libraries used by thousands, and mentored junior developers across global remote teams.</p>
+        <p style="margin-top:1rem; color:var(--text-muted); font-size:0.95rem;">When I’m not coding, I’m usually hiking the Pacific Northwest, experimenting with WebGL shaders, or brewing overly complicated pour-over coffee. Open to full-time roles, consulting, and collaborative open-source work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2 class="section-title fade-up">Skills & Tools</h2>
+    <div class="skills-grid">
+      <span class="skill-tag fade-up stagger-1">React / Next.js</span>
+      <span class="skill-tag fade-up stagger-1">TypeScript</span>
+      <span class="skill-tag fade-up stagger-2">Node.js & Express</span>
+      <span class="skill-tag fade-up stagger-2">PostgreSQL & Prisma</span>
+      <span class="skill-tag fade-up stagger-3">Tailwind CSS & Framer Motion</span>
+      <span class="skill-tag fade-up stagger-3">Figma & Design Systems</span>
+      <span class="skill-tag fade-up stagger-4">Docker & AWS</span>
+      <span class="skill-tag fade-up stagger-4">Git & CI/CD Pipelines</span>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <h2 class="section-title fade-up">Featured Projects</h2>
+    <div class="projects-grid">
+      <article class="project-card fade-up">
+        <img src="https://placehold.co/600x400/11151c/8b5cf6?text=Nexus+CRM" alt="Nexus CRM Dashboard" class="project-img">
+        <div class="project-content">
+          <h3>Nexus CRM</h3>
+          <p>Real-time customer relationship platform with pipeline automation, role-based access, and interactive analytics dashboards.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">Next.js</span><span class="tech-badge">TypeScript</span><span class="tech-badge">Supabase</span><span class="tech-badge">Tailwind</span>
+          </div>
+          <div class="project-links">
+            <a href="#">Live Demo ↗</a><a href="#">GitHub ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card fade-up stagger-1">
+        <img src="https://placehold.co/600x400/11151c/06b6d4?text=Aura+Weather" alt="Aura Weather App" class="project-img">
+        <div class="project-content">
+          <h3>Aura Weather</h3>
+          <p>Progressive weather app with hyperlocal forecasting, animated SVG conditions, offline caching, and accessibility-first navigation.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">React</span><span class="tech-badge">OpenWeather API</span><span class="tech-badge">Workbox</span><span class="tech-badge">CSS Grid</span>
+          </div>
+          <div class="project-links">
+            <a href="#">Live Demo ↗</a><a href="#">GitHub ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card fade-up stagger-2">
+        <img src="https://placehold.co/600x400/11151c/ec4899?text=DevPulse" alt="DevPulse Analytics" class="project-img">
+        <div class="project-content">
+          <h3>DevPulse</h3>
+          <p>Developer productivity analytics tool that aggregates GitHub, Jira, and CI/CD metrics into customizable team health reports.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">Node.js</span><span class="tech-badge">GraphQL</span><span class="tech-badge">D3.js</span><span class="tech-badge">Docker</span>
+          </div>
+          <div class="project-links">
+            <a href="#">Live Demo ↗</a><a href="#">GitHub ↗</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2 class="section-title fade-up">Let's Connect</h2>
+    <div class="contact-container fade-up stagger-1">
+      <p style="color:var(--text-muted); margin-bottom:1.5rem;">I’m currently exploring new opportunities and love discussing tech, design, or potential collaborations. Drop me a line!</p>
+      <a href="mailto:hello@FAISAL" class="btn">Send an Email</a>
+      <div class="contact-links">
+        <a href="https://github.com/FAISAL" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/FAISAL" target="_blank">LinkedIn</a>
+        <a href="https://twitter.com/FAISAL" target="_blank">Twitter / X</a>
+        <a href="https://dribbble.com/FAISAL" target="_blank">Dribbble</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© <span id="year"></span> FAISAL. Built with semantic HTML, modern CSS & vanilla JS.</p>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('active');
+      menuToggle.textContent = isOpen ? '✕' : '☰';
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+      });
+    });
+
+    // Auto-update Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Typing Animation
+    const phrases = [
+      "Full-Stack Developer & UX Engineer",
+      "Building fast, accessible web apps",
+      "Turning complex ideas into clean code",
+      "Open to freelance & full-time roles"
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingEl = document.querySelector('.typing-text');
+
+    function typeEffect() {
+      const current = phrases[phraseIndex];
+      typingEl.textContent = isDeleting
+        ? current.substring(0, charIndex - 1)
+        : current.substring(0, charIndex + 1);
+
+      charIndex += isDeleting ? -1 : 1;
+
+      let speed = isDeleting ? 30 : 60;
+
+      if (!isDeleting && charIndex === current.length) {
+        speed = 2000; // Pause at end
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        speed = 400;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+    typeEffect();
+
+    // Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // Animate once
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
